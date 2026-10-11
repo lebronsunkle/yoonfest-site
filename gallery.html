@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gallery | YOON Fest</title>
+<meta name="description" content="YOON Fest 2027. May 7 to 9, Sequoia Forest, Kings Canyon, California.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #f4efe6;
+    --dark: #0d0d0c;
+    --accent: #f4efe6;
+    --overlay: rgba(0,0,0,.35);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--dark); color: var(--ink); font-family: Inter, system-ui, sans-serif; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- Top bar ---------- */
+  header {
+    position: fixed; inset: 0 0 auto 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 32px;
+  }
+  header { transition: background .3s, backdrop-filter .3s; }
+  header.solid { background: rgba(13,13,12,.82); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  nav.main { display: flex; gap: 28px; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
+  nav.main a { opacity: .85; transition: opacity .2s; }
+  nav.main a:hover, nav.main a.active { opacity: 1; }
+  .right { display: flex; align-items: center; gap: 18px; }
+  .ig { width: 22px; height: 22px; display: grid; place-items: center; opacity: .9; }
+  .ig:hover { opacity: 1; }
+  .btn {
+    display: inline-block; padding: 10px 22px; border: 1.5px solid var(--ink);
+    font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    transition: background .2s, color .2s;
+  }
+  .btn:hover { background: var(--ink); color: var(--dark); }
+  .burger { display: none; background: none; border: 0; color: var(--ink); cursor: pointer; }
+
+  /* ---------- Hero slideshow ---------- */
+  .hero { position: relative; height: 100vh; height: 100svh; overflow: hidden; }
+  .slide {
+    position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s ease;
+    background: #222 center/cover no-repeat;
+  }
+  .slide.on { opacity: 1; }
+  .slide video, .slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .slide.on img { animation: kb 9s ease-out forwards; }
+  @keyframes kb { from { transform: scale(1.0); } to { transform: scale(1.08); } }
+  .hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 65% 75% at 50% 58%, rgba(0,0,0,.62), rgba(0,0,0,.38) 75%), linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,0) 18%, rgba(0,0,0,0) 75%, rgba(0,0,0,.45)); pointer-events: none; }
+
+  .center {
+    position: absolute; inset: 0; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 0 24px; gap: 22px;
+  }
+  .logo img { height: min(46vh, 440px); width: auto; max-width: 78vw; display: block; filter: drop-shadow(0 2px 18px rgba(0,0,0,.35)); }
+  .brand img { height: 22px; width: auto; display: block; }
+  .left { display: flex; align-items: center; gap: 40px; }
+  .logo .wordmark { font-family: "Archivo Black", sans-serif; font-size: clamp(64px, 14vw, 180px); line-height: .9; letter-spacing: -.02em; }
+  .dates { font-size: clamp(16px, 2.2vw, 22px); font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
+  .place { font-size: 13px; letter-spacing: .2em; text-transform: uppercase; opacity: .85; margin-top: -12px; }
+  .center .btn { padding: 14px 34px; font-size: 14px; }
+  .blurb { max-width: 540px; font-size: 15px; line-height: 1.6; text-shadow: 0 1px 3px rgba(0,0,0,.8), 0 0 18px rgba(0,0,0,.6); margin-top: 4px; }
+
+  .dots { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 3; display: flex; gap: 8px; }
+  .dots button { width: 8px; height: 8px; border-radius: 50%; border: 0; background: var(--ink); opacity: .4; cursor: pointer; }
+  .dots button.on { opacity: 1; }
+
+
+  /* ---------- Photo reels ---------- */
+  html, body { height: auto; }
+  .archive { padding: 72px 0 56px; display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+  .archive-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 0 32px 18px; }
+  .archive h2 { font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
+  .archive .more { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; opacity: .7; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+  .archive .more:hover { opacity: 1; }
+  .reel { overflow: hidden; }
+  .track { display: flex; gap: 14px; width: max-content; animation: drift 200s linear infinite; }
+  .reel.r2 .track { animation-duration: 240s; }
+  .track img { height: clamp(180px, 26vw, 340px); width: auto; display: block; border-radius: 2px; filter: saturate(1.05); }
+  .reel:hover .track { animation-play-state: paused; }
+  @keyframes drift { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  @media (prefers-reduced-motion: reduce) { .track { animation: none; } .reel { overflow-x: auto; } }
+  footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 28px 32px 36px; border-top: 1px solid rgba(244,239,230,.12); font-size: 13px; letter-spacing: .06em; opacity: .85; }
+  .foot-logo { height: 16px; width: auto; }
+  @media (max-width: 760px) { .archive { padding: 48px 0 40px; } .archive-head, footer { padding-left: 16px; padding-right: 16px; } .track { gap: 10px; } }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 760px) {
+    header { padding: 16px; }
+    .burger { display: block; }
+    nav.main {
+      position: fixed; inset: 0; background: var(--dark);
+      flex-direction: column; align-items: center; justify-content: center; gap: 34px; font-size: 22px;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
+    }
+    nav.main.open { opacity: 1; pointer-events: auto; }
+    header.menu-open, header.solid.menu-open { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+    .burger, .brand, .right { position: relative; z-index: 2; }
+    body.menu-open { overflow: hidden; }
+    .right .btn { padding: 8px 14px; font-size: 12px; }
+    .left { gap: 14px; }
+    .brand img { height: 18px; }
+    .logo img { height: min(32vh, 300px); }
+    .center { gap: 16px; }
+    .blurb { font-size: 13.5px; }
+    .place { letter-spacing: .12em; font-size: 11.5px; }
+    .dates { letter-spacing: .14em; }
+  }
+</style>
+<style>
+
+  body.sub main { padding-top: 96px; }
+  .page-head { padding: 24px 32px 28px; display: flex; flex-direction: column; gap: 10px; }
+  .page-head h1 { font-size: clamp(28px, 4vw, 44px); font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .page-head p { max-width: 58ch; opacity: .8; line-height: 1.6; font-size: 15px; }
+  @media (max-width: 760px) { body.sub main { padding-top: 80px; } .page-head { padding: 16px 16px 22px; } }
+
+  .flash { position: relative; margin: 0 32px; height: min(62vh, 640px); overflow: hidden; border-radius: 2px; background: #000; }
+  .flash img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .35s ease; }
+  .flash img.on { opacity: 1; }
+  .flash .count { position: absolute; right: 14px; bottom: 12px; font-size: 12px; letter-spacing: .14em; opacity: .75; font-variant-numeric: tabular-nums; text-shadow: 0 1px 6px rgba(0,0,0,.7); }
+  .wall { padding: 18px 0 64px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+  .wall .reel { overflow: hidden; }
+  .wall .track { display: flex; gap: 12px; width: max-content; animation: drift 160s linear infinite; }
+  .wall .reel.rev .track { animation-name: driftrev; }
+  .wall .reel:nth-child(2) .track { animation-duration: 190s; }
+  .wall .reel:nth-child(3) .track { animation-duration: 175s; }
+  .wall .reel:nth-child(4) .track { animation-duration: 210s; }
+  .wall img { height: clamp(150px, 20vw, 260px); width: auto; display: block; border-radius: 2px; cursor: zoom-in; transition: filter .2s; }
+  .wall img:hover { filter: brightness(1.12); }
+  .wall .reel:hover .track { animation-play-state: paused; }
+  @keyframes driftrev { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(8,8,7,.94); display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .lightbox[hidden] { display: none; }
+  .lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .lightbox button { position: absolute; background: none; border: 0; color: var(--ink); cursor: pointer; padding: 14px; font-size: 28px; line-height: 1; opacity: .8; }
+  .lightbox button:hover { opacity: 1; }
+  .lb-close { top: 12px; right: 12px; } .lb-prev { left: 8px; top: 50%; transform: translateY(-50%); } .lb-next { right: 8px; top: 50%; transform: translateY(-50%); }
+  @media (max-width: 760px) { .flash { margin: 0 16px; height: 52vh; } .wall img { height: 150px; } }
+  @media (prefers-reduced-motion: reduce) { .wall .track { animation: none; } .wall .reel { overflow-x: auto; } .flash img { transition: none; } }
+
+</style>
+</head>
+<body class="sub">
+<header class="solid">
+  <div class="left">
+  <button class="burger" aria-label="Menu" onclick="var o=document.querySelector('nav.main').classList.toggle('open');document.querySelector('header').classList.toggle('menu-open',o);document.body.classList.toggle('menu-open',o)">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+  </button>
+  <a class="brand" href="index.html" aria-label="YOON home"><img src="assets/yoon-wordmark.png" alt="YOON"></a>
+  <nav class="main" onclick="if(event.target.tagName==='A'){this.classList.remove('open');document.querySelector('header').classList.remove('menu-open');document.body.classList.remove('menu-open')}">
+    <a href="index.html" >Home</a>
+    <a href="lineup.html">Lineup</a>
+    <a href="venue.html">Venue</a>
+    <a href="gallery.html" class="active">Gallery</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  </div>
+  <div class="right">
+    <a class="ig" href="https://instagram.com/yoonfest" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+    </a>
+    <a class="btn tickets" href="https://shotgun.live/en/venues/yoon" target="_blank" rel="noopener">Tickets</a>
+  </div>
+</header>
+<main>
+<section class="page-head">
+  <h1>Gallery</h1>
+  <p>From Joshua Tree to the Sequoia Forest, and every desert and mountain in between.</p>
+</section>
+<section class="flash" id="flash" aria-label="Photo slideshow"><span class="count" id="count"></span></section>
+<section class="wall" aria-label="All photos">
+  <div class="reel"><div class="track"><img src="assets/strip/dsc09764.jpg" data-full="assets/photo/dsc09764.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/dsc07612.jpg" data-full="assets/photo/dsc07612.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-CfkDAaWvZR0.jpg" data-full="assets/photo/ig-CfkDAaWvZR0.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-13.jpg" data-full="assets/photo/deck-13.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-DLKx83_R1TK.jpg" data-full="assets/photo/ig-DLKx83_R1TK.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-04.jpg" data-full="assets/photo/deck-04.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/dsc06312.jpg" data-full="assets/photo/dsc06312.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-CfC7iEKpynj.jpg" data-full="assets/photo/ig-CfC7iEKpynj.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-DB7IHx5TsIz_s4.jpg" data-full="assets/photo/ig-DB7IHx5TsIz_s4.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-08.jpg" data-full="assets/photo/deck-08.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-C4gmfBBPRvU.jpg" data-full="assets/photo/ig-C4gmfBBPRvU.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/1i0a7871.jpg" data-full="assets/photo/1i0a7871.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-DB7IHx5TsIz_s2.jpg" data-full="assets/photo/ig-DB7IHx5TsIz_s2.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-16.jpg" data-full="assets/photo/deck-16.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/dsc08333.jpg" data-full="assets/photo/dsc08333.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-05.jpg" data-full="assets/photo/deck-05.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/1i0a8267.jpg" data-full="assets/photo/1i0a8267.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-07.jpg" data-full="assets/photo/deck-07.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/dsc09764.jpg" data-full="assets/photo/dsc09764.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/dsc07612.jpg" data-full="assets/photo/dsc07612.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-CfkDAaWvZR0.jpg" data-full="assets/photo/ig-CfkDAaWvZR0.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-13.jpg" data-full="assets/photo/deck-13.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-DLKx83_R1TK.jpg" data-full="assets/photo/ig-DLKx83_R1TK.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-04.jpg" data-full="assets/photo/deck-04.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/dsc06312.jpg" data-full="assets/photo/dsc06312.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-CfC7iEKpynj.jpg" data-full="assets/photo/ig-CfC7iEKpynj.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-DB7IHx5TsIz_s4.jpg" data-full="assets/photo/ig-DB7IHx5TsIz_s4.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-08.jpg" data-full="assets/photo/deck-08.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-C4gmfBBPRvU.jpg" data-full="assets/photo/ig-C4gmfBBPRvU.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/1i0a7871.jpg" data-full="assets/photo/1i0a7871.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-DB7IHx5TsIz_s2.jpg" data-full="assets/photo/ig-DB7IHx5TsIz_s2.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-16.jpg" data-full="assets/photo/deck-16.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/dsc08333.jpg" data-full="assets/photo/dsc08333.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-05.jpg" data-full="assets/photo/deck-05.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/1i0a8267.jpg" data-full="assets/photo/1i0a8267.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-07.jpg" data-full="assets/photo/deck-07.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"></div></div><div class="reel rev"><div class="track"><img src="assets/strip/ig-CywkKgSvENr.jpg" data-full="assets/photo/ig-CywkKgSvENr.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-14.jpg" data-full="assets/photo/deck-14.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/art-install.jpg" data-full="assets/photo/art-install.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-C5Q4I_RNxnt.jpg" data-full="assets/photo/ig-C5Q4I_RNxnt.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-DTyFBITD5id.jpg" data-full="assets/photo/ig-DTyFBITD5id.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/sick-lighting.jpg" data-full="assets/photo/sick-lighting.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-CtsdEi-rmVV.jpg" data-full="assets/photo/ig-CtsdEi-rmVV.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/dsc00052.jpg" data-full="assets/photo/dsc00052.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-18.jpg" data-full="assets/photo/deck-18.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/projection.jpg" data-full="assets/photo/projection.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-01.jpg" data-full="assets/photo/deck-01.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-15.jpg" data-full="assets/photo/deck-15.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-DYSsDvXkge-.jpg" data-full="assets/photo/ig-DYSsDvXkge-.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-DI13QyxTrNK.jpg" data-full="assets/photo/ig-DI13QyxTrNK.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/yoonfilm-39.jpg" data-full="assets/photo/yoonfilm-39.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/dsc09481.jpg" data-full="assets/photo/dsc09481.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/byte.jpg" data-full="assets/photo/byte.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/yoonfilm-32.jpg" data-full="assets/photo/yoonfilm-32.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-CywkKgSvENr.jpg" data-full="assets/photo/ig-CywkKgSvENr.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-14.jpg" data-full="assets/photo/deck-14.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/art-install.jpg" data-full="assets/photo/art-install.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-C5Q4I_RNxnt.jpg" data-full="assets/photo/ig-C5Q4I_RNxnt.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-DTyFBITD5id.jpg" data-full="assets/photo/ig-DTyFBITD5id.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/sick-lighting.jpg" data-full="assets/photo/sick-lighting.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-CtsdEi-rmVV.jpg" data-full="assets/photo/ig-CtsdEi-rmVV.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/dsc00052.jpg" data-full="assets/photo/dsc00052.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-18.jpg" data-full="assets/photo/deck-18.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/projection.jpg" data-full="assets/photo/projection.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-01.jpg" data-full="assets/photo/deck-01.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-15.jpg" data-full="assets/photo/deck-15.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-DYSsDvXkge-.jpg" data-full="assets/photo/ig-DYSsDvXkge-.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-DI13QyxTrNK.jpg" data-full="assets/photo/ig-DI13QyxTrNK.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/yoonfilm-39.jpg" data-full="assets/photo/yoonfilm-39.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/dsc09481.jpg" data-full="assets/photo/dsc09481.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/byte.jpg" data-full="assets/photo/byte.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/yoonfilm-32.jpg" data-full="assets/photo/yoonfilm-32.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"></div></div><div class="reel"><div class="track"><img src="assets/strip/ig-CcQtIk1vqRa.jpg" data-full="assets/photo/ig-CcQtIk1vqRa.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/bus-stop.jpg" data-full="assets/photo/bus-stop.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-17.jpg" data-full="assets/photo/deck-17.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-12.jpg" data-full="assets/photo/deck-12.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-11.jpg" data-full="assets/photo/deck-11.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/boat.jpg" data-full="assets/photo/boat.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/1i0a8391.jpg" data-full="assets/photo/1i0a8391.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-DCH_1Xyz5FL.jpg" data-full="assets/photo/ig-DCH_1Xyz5FL.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-DLEdXusOltm.jpg" data-full="assets/photo/ig-DLEdXusOltm.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-10.jpg" data-full="assets/photo/deck-10.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/1i0a8655.jpg" data-full="assets/photo/1i0a8655.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/dsc08003.jpg" data-full="assets/photo/dsc08003.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/cruella.jpg" data-full="assets/photo/cruella.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-DOjJtyhETn-.jpg" data-full="assets/photo/ig-DOjJtyhETn-.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-CfsF2uwPwX1.jpg" data-full="assets/photo/ig-CfsF2uwPwX1.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/yoonfilm-31.jpg" data-full="assets/photo/yoonfilm-31.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-DMI03vrvsVB.jpg" data-full="assets/photo/ig-DMI03vrvsVB.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/dsc06094.jpg" data-full="assets/photo/dsc06094.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-CcQtIk1vqRa.jpg" data-full="assets/photo/ig-CcQtIk1vqRa.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/bus-stop.jpg" data-full="assets/photo/bus-stop.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-17.jpg" data-full="assets/photo/deck-17.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-12.jpg" data-full="assets/photo/deck-12.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-11.jpg" data-full="assets/photo/deck-11.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/boat.jpg" data-full="assets/photo/boat.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/1i0a8391.jpg" data-full="assets/photo/1i0a8391.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-DCH_1Xyz5FL.jpg" data-full="assets/photo/ig-DCH_1Xyz5FL.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-DLEdXusOltm.jpg" data-full="assets/photo/ig-DLEdXusOltm.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-10.jpg" data-full="assets/photo/deck-10.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/1i0a8655.jpg" data-full="assets/photo/1i0a8655.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/dsc08003.jpg" data-full="assets/photo/dsc08003.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/cruella.jpg" data-full="assets/photo/cruella.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-DOjJtyhETn-.jpg" data-full="assets/photo/ig-DOjJtyhETn-.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-CfsF2uwPwX1.jpg" data-full="assets/photo/ig-CfsF2uwPwX1.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/yoonfilm-31.jpg" data-full="assets/photo/yoonfilm-31.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-DMI03vrvsVB.jpg" data-full="assets/photo/ig-DMI03vrvsVB.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/dsc06094.jpg" data-full="assets/photo/dsc06094.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"></div></div><div class="reel rev"><div class="track"><img src="assets/strip/ig-C5Q4I_RNxnt_s7.jpg" data-full="assets/photo/ig-C5Q4I_RNxnt_s7.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-DChg27DSE_p.jpg" data-full="assets/photo/ig-DChg27DSE_p.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-09.jpg" data-full="assets/photo/deck-09.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-ChDASkqln42.jpg" data-full="assets/photo/ig-ChDASkqln42.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/yoonfilm-102.jpg" data-full="assets/photo/yoonfilm-102.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-06.jpg" data-full="assets/photo/deck-06.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-02.jpg" data-full="assets/photo/deck-02.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-19.jpg" data-full="assets/photo/deck-19.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-DCSKKn2yKyb.jpg" data-full="assets/photo/ig-DCSKKn2yKyb.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/1i0a8333.jpg" data-full="assets/photo/1i0a8333.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-Cci4Afru0S9.jpg" data-full="assets/photo/ig-Cci4Afru0S9.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-DB4ZkWhSxYH_s2.jpg" data-full="assets/photo/ig-DB4ZkWhSxYH_s2.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-CbQuGrxvlRG.jpg" data-full="assets/photo/ig-CbQuGrxvlRG.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-DCFp8RzyRb6.jpg" data-full="assets/photo/ig-DCFp8RzyRb6.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/deck-03.jpg" data-full="assets/photo/deck-03.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/woods.jpg" data-full="assets/photo/woods.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-Ciaty-INSb_.jpg" data-full="assets/photo/ig-Ciaty-INSb_.jpg" alt="YOON Fest photo" loading="lazy" decoding="async"><img src="assets/strip/ig-C5Q4I_RNxnt_s7.jpg" data-full="assets/photo/ig-C5Q4I_RNxnt_s7.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-DChg27DSE_p.jpg" data-full="assets/photo/ig-DChg27DSE_p.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-09.jpg" data-full="assets/photo/deck-09.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-ChDASkqln42.jpg" data-full="assets/photo/ig-ChDASkqln42.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/yoonfilm-102.jpg" data-full="assets/photo/yoonfilm-102.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-06.jpg" data-full="assets/photo/deck-06.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-02.jpg" data-full="assets/photo/deck-02.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-19.jpg" data-full="assets/photo/deck-19.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-DCSKKn2yKyb.jpg" data-full="assets/photo/ig-DCSKKn2yKyb.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/1i0a8333.jpg" data-full="assets/photo/1i0a8333.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-Cci4Afru0S9.jpg" data-full="assets/photo/ig-Cci4Afru0S9.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-DB4ZkWhSxYH_s2.jpg" data-full="assets/photo/ig-DB4ZkWhSxYH_s2.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-CbQuGrxvlRG.jpg" data-full="assets/photo/ig-CbQuGrxvlRG.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-DCFp8RzyRb6.jpg" data-full="assets/photo/ig-DCFp8RzyRb6.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/deck-03.jpg" data-full="assets/photo/deck-03.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/woods.jpg" data-full="assets/photo/woods.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/strip/ig-Ciaty-INSb_.jpg" data-full="assets/photo/ig-Ciaty-INSb_.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"></div></div>
+</section>
+<div class="lightbox" id="lb" hidden>
+  <button class="lb-close" aria-label="Close">&times;</button>
+  <button class="lb-prev" aria-label="Previous">&#8249;</button>
+  <img id="lbimg" alt="">
+  <button class="lb-next" aria-label="Next">&#8250;</button>
+</div>
+</main>
+<footer>
+  <img src="assets/yoon-wordmark.png" alt="YOON" class="foot-logo">
+  <span>May 7 to 9, 2027 &middot; Sequoia Forest, Kings Canyon, CA</span>
+  <a href="https://instagram.com/yoonfest" target="_blank" rel="noopener">@yoonfest</a>
+</footer>
+<script>
+const FLASH = ["assets/photo/1i0a7871.jpg", "assets/photo/1i0a8267.jpg", "assets/photo/1i0a8391.jpg", "assets/photo/1i0a8655.jpg", "assets/photo/boat.jpg", "assets/photo/deck-02.jpg", "assets/photo/deck-05.jpg", "assets/photo/deck-06.jpg", "assets/photo/deck-07.jpg", "assets/photo/deck-09.jpg", "assets/photo/deck-10.jpg", "assets/photo/deck-11.jpg", "assets/photo/deck-13.jpg", "assets/photo/deck-15.jpg", "assets/photo/deck-16.jpg", "assets/photo/deck-17.jpg", "assets/photo/deck-18.jpg", "assets/photo/dsc06094.jpg", "assets/photo/dsc07612.jpg", "assets/photo/dsc08003.jpg", "assets/photo/dsc08333.jpg", "assets/photo/dsc09481.jpg", "assets/photo/dsc09764.jpg", "assets/photo/ig-C4gmfBBPRvU.jpg", "assets/photo/ig-C5Q4I_RNxnt.jpg", "assets/photo/ig-C5Q4I_RNxnt_s7.jpg", "assets/photo/ig-CfkDAaWvZR0.jpg", "assets/photo/ig-CtsdEi-rmVV.jpg", "assets/photo/woods.jpg", "assets/photo/yoonfilm-102.jpg", "assets/photo/yoonfilm-31.jpg", "assets/photo/yoonfilm-39.jpg"];
+const ALL = ["assets/photo/dsc09764.jpg", "assets/photo/ig-CywkKgSvENr.jpg", "assets/photo/ig-CcQtIk1vqRa.jpg", "assets/photo/ig-C5Q4I_RNxnt_s7.jpg", "assets/photo/dsc07612.jpg", "assets/photo/deck-14.jpg", "assets/photo/bus-stop.jpg", "assets/photo/ig-DChg27DSE_p.jpg", "assets/photo/ig-CfkDAaWvZR0.jpg", "assets/photo/art-install.jpg", "assets/photo/deck-17.jpg", "assets/photo/deck-09.jpg", "assets/photo/deck-13.jpg", "assets/photo/ig-C5Q4I_RNxnt.jpg", "assets/photo/deck-12.jpg", "assets/photo/ig-ChDASkqln42.jpg", "assets/photo/ig-DLKx83_R1TK.jpg", "assets/photo/ig-DTyFBITD5id.jpg", "assets/photo/deck-11.jpg", "assets/photo/yoonfilm-102.jpg", "assets/photo/deck-04.jpg", "assets/photo/sick-lighting.jpg", "assets/photo/boat.jpg", "assets/photo/deck-06.jpg", "assets/photo/dsc06312.jpg", "assets/photo/ig-CtsdEi-rmVV.jpg", "assets/photo/1i0a8391.jpg", "assets/photo/deck-02.jpg", "assets/photo/ig-CfC7iEKpynj.jpg", "assets/photo/dsc00052.jpg", "assets/photo/ig-DCH_1Xyz5FL.jpg", "assets/photo/deck-19.jpg", "assets/photo/ig-DB7IHx5TsIz_s4.jpg", "assets/photo/deck-18.jpg", "assets/photo/ig-DLEdXusOltm.jpg", "assets/photo/ig-DCSKKn2yKyb.jpg", "assets/photo/deck-08.jpg", "assets/photo/projection.jpg", "assets/photo/deck-10.jpg", "assets/photo/1i0a8333.jpg", "assets/photo/ig-C4gmfBBPRvU.jpg", "assets/photo/deck-01.jpg", "assets/photo/1i0a8655.jpg", "assets/photo/ig-Cci4Afru0S9.jpg", "assets/photo/1i0a7871.jpg", "assets/photo/deck-15.jpg", "assets/photo/dsc08003.jpg", "assets/photo/ig-DB4ZkWhSxYH_s2.jpg", "assets/photo/ig-DB7IHx5TsIz_s2.jpg", "assets/photo/ig-DYSsDvXkge-.jpg", "assets/photo/cruella.jpg", "assets/photo/ig-CbQuGrxvlRG.jpg", "assets/photo/deck-16.jpg", "assets/photo/ig-DI13QyxTrNK.jpg", "assets/photo/ig-DOjJtyhETn-.jpg", "assets/photo/ig-DCFp8RzyRb6.jpg", "assets/photo/dsc08333.jpg", "assets/photo/yoonfilm-39.jpg", "assets/photo/ig-CfsF2uwPwX1.jpg", "assets/photo/deck-03.jpg", "assets/photo/deck-05.jpg", "assets/photo/dsc09481.jpg", "assets/photo/yoonfilm-31.jpg", "assets/photo/woods.jpg", "assets/photo/1i0a8267.jpg", "assets/photo/byte.jpg", "assets/photo/ig-DMI03vrvsVB.jpg", "assets/photo/ig-Ciaty-INSb_.jpg", "assets/photo/deck-07.jpg", "assets/photo/yoonfilm-32.jpg", "assets/photo/dsc06094.jpg"];
+(function () {
+  const box = document.getElementById("flash"), count = document.getElementById("count");
+  const list = FLASH.slice().sort(() => Math.random() - 0.5);
+  const imgs = list.map((src, i) => { const im = new Image(); im.alt = ""; im.decoding = "async"; if (i < 3) im.src = src; else im.dataset.src = src; box.insertBefore(im, count); return im; });
+  let i = 0;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function show(n) {
+    imgs.forEach((im, k) => im.classList.toggle("on", k === n));
+    const ahead = imgs[(n + 2) % imgs.length]; if (ahead.dataset.src) { ahead.src = ahead.dataset.src; delete ahead.dataset.src; }
+    count.textContent = String(n + 1).padStart(2, "0") + " / " + String(imgs.length).padStart(2, "0");
+  }
+  show(0);
+  if (!reduce) setInterval(() => { i = (i + 1) % imgs.length; show(i); }, 1300);
+  // lightbox
+  const lb = document.getElementById("lb"), lbimg = document.getElementById("lbimg");
+  let cur = 0;
+  const open = n => { cur = (n + ALL.length) % ALL.length; lbimg.src = ALL[cur]; lb.hidden = false; };
+  const close = () => { lb.hidden = true; lbimg.removeAttribute("src"); };
+  document.querySelectorAll(".wall img").forEach(im => im.addEventListener("click", () => open(ALL.indexOf(im.dataset.full))));
+  lb.querySelector(".lb-close").onclick = close;
+  lb.querySelector(".lb-prev").onclick = e => { e.stopPropagation(); open(cur - 1); };
+  lb.querySelector(".lb-next").onclick = e => { e.stopPropagation(); open(cur + 1); };
+  lb.addEventListener("click", e => { if (e.target === lb) close(); });
+  document.addEventListener("keydown", e => { if (lb.hidden) return; if (e.key === "Escape") close(); if (e.key === "ArrowLeft") open(cur - 1); if (e.key === "ArrowRight") open(cur + 1); });
+})();
+</script>
+</body>
+</html>
