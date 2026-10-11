@@ -58,6 +58,8 @@
     background: #222 center/cover no-repeat;
   }
   .slide.on { opacity: 1; }
+  .slide video { opacity: 0; transition: opacity .4s ease; }
+  .slide.live video { opacity: 1; }
   .slide video, .slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .slide.on img { animation: kb 9s ease-out forwards; }
   @keyframes kb { from { transform: scale(1.0); } to { transform: scale(1.08); } }
@@ -264,7 +266,9 @@ const slides = MEDIA.map((m, n) => {
   if (m.type === "video") {
     const v = document.createElement("video");
     v.src = m.src; v.muted = true; v.playsInline = true; v.preload = n < 2 ? "auto" : "none";
-    if (m.poster) v.poster = m.poster;
+    if (m.poster) { v.poster = m.poster; el.style.backgroundImage = "url(" + m.poster + ")"; }
+    v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", "");
+    v.addEventListener("playing", () => el.classList.add("live"));
     el.appendChild(v);
   } else if (m.type === "photo") {
     const img = document.createElement("img");
