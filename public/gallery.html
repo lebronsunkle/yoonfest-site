@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gallery | YOON Fest</title>
 <meta name="description" content="YOON Fest 2027. May 7 to 9, Sequoia Forest, Kings Canyon, California.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="YOON Fest">
+<meta property="og:title" content="YOON Fest 2027">
+<meta property="og:description" content="May 7 to 9, 2027. Sequoia Forest, Kings Canyon, CA.">
+<meta property="og:url" content="https://yoonfest.us/">
+<meta property="og:image" content="https://yoonfest.us/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yoonfest.us/assets/og.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -64,6 +74,8 @@
   .dates { font-size: clamp(16px, 2.2vw, 22px); font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
   .place { font-size: 13px; letter-spacing: .2em; text-transform: uppercase; opacity: .85; margin-top: -12px; }
   .center .btn { padding: 14px 34px; font-size: 14px; }
+  .meaning { max-width: 540px; margin-top: -8px; font-size: 13px; letter-spacing: .06em; opacity: .85; font-style: italic; text-shadow: 0 1px 3px rgba(0,0,0,.8), 0 0 18px rgba(0,0,0,.6); }
+  .meaning span { font-style: normal; font-weight: 600; letter-spacing: .18em; }
   .blurb { max-width: 540px; font-size: 15px; line-height: 1.6; text-shadow: 0 1px 3px rgba(0,0,0,.8), 0 0 18px rgba(0,0,0,.6); margin-top: 4px; }
 
   .dots { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 3; display: flex; gap: 8px; }
@@ -85,6 +97,17 @@
   .reel:hover .track { animation-play-state: paused; }
   @keyframes drift { from { transform: translateX(-50%); } to { transform: translateX(0); } }
   @media (prefers-reduced-motion: reduce) { .track { animation: none; } .reel { overflow-x: auto; } }
+  .news { padding: 72px 32px 88px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; border-top: 1px solid rgba(244,239,230,.12); }
+  .news h2 { font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
+  .news p { opacity: .75; font-size: 15px; line-height: 1.6; max-width: 46ch; }
+  .news form { display: flex; flex-direction: column; align-items: center; gap: 18px; width: min(520px, 100%); margin-top: 8px; }
+  .news input[type=email] { width: 100%; font: 15px/1.5 Inter, system-ui, sans-serif; color: var(--ink); background: rgba(244,239,230,.06); border: 1px solid rgba(244,239,230,.25); border-radius: 2px; padding: 14px 16px; letter-spacing: .04em; }
+  .news input[type=email]::placeholder { color: rgba(244,239,230,.5); text-transform: uppercase; letter-spacing: .14em; font-size: 13px; }
+  .news input[type=email]:focus { outline: none; border-color: var(--ink); background: rgba(244,239,230,.1); }
+  .news button { cursor: pointer; background: none; color: var(--ink); font-family: inherit; padding: 14px 32px; }
+  .news .hp { position: absolute; left: -9999px; }
+  .news .done { font-size: 14px; letter-spacing: .08em; opacity: .9; }
+  @media (max-width: 760px) { .news { padding: 56px 16px 64px; } }
   footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 28px 32px 36px; border-top: 1px solid rgba(244,239,230,.12); font-size: 13px; letter-spacing: .06em; opacity: .85; }
   .foot-logo { height: 16px; width: auto; }
   @media (max-width: 760px) { .archive { padding: 48px 0 40px; } .archive-head, footer { padding-left: 16px; padding-right: 16px; } .track { gap: 10px; } }
@@ -108,6 +131,7 @@
     .logo img { height: min(32vh, 300px); }
     .center { gap: 16px; }
     .blurb { font-size: 13.5px; }
+    .meaning { font-size: 12px; }
     .place { letter-spacing: .12em; font-size: 11.5px; }
     .dates { letter-spacing: .14em; }
   }
