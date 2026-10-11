@@ -96,6 +96,8 @@
   .reel.r2 .track { animation-duration: 240s; }
   .track img { height: clamp(180px, 26vw, 340px); width: auto; display: block; border-radius: 2px; filter: saturate(1.05); }
   .reel:hover .track { animation-play-state: paused; }
+
+  .jsreel .reel .track { animation: none !important; transform: none !important; }
   @keyframes drift { from { transform: translateX(-50%); } to { transform: translateX(0); } }
   @media (prefers-reduced-motion: reduce) { .track { animation: none; } .reel { overflow-x: auto; } }
   .news { padding: 72px 32px 88px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; border-top: 1px solid rgba(244,239,230,.12); }

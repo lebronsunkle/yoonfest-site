@@ -96,6 +96,8 @@
   .reel.r2 .track { animation-duration: 240s; }
   .track img { height: clamp(180px, 26vw, 340px); width: auto; display: block; border-radius: 2px; filter: saturate(1.05); }
   .reel:hover .track { animation-play-state: paused; }
+
+  .jsreel .reel .track { animation: none !important; transform: none !important; }
   @keyframes drift { from { transform: translateX(-50%); } to { transform: translateX(0); } }
   @media (prefers-reduced-motion: reduce) { .track { animation: none; } .reel { overflow-x: auto; } }
   .news { padding: 72px 32px 88px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; border-top: 1px solid rgba(244,239,230,.12); }
@@ -159,6 +161,7 @@
   .wall img { height: clamp(150px, 20vw, 260px); width: auto; display: block; border-radius: 2px; cursor: zoom-in; transition: filter .2s; }
   .wall img:hover { filter: brightness(1.12); }
   .wall .reel:hover .track { animation-play-state: paused; }
+  .jsreel .wall .track { animation: none !important; transform: none !important; }
   @keyframes driftrev { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   .lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(8,8,7,.94); display: flex; align-items: center; justify-content: center; padding: 24px; }
   .lightbox[hidden] { display: none; }
@@ -241,6 +244,33 @@ const ALL = ["assets/photo/ig-C4gmfBBPRvU.jpg", "assets/photo/ig-DB4ZkWhSxYH_s2.
   lb.querySelector(".lb-next").onclick = e => { e.stopPropagation(); open(cur + 1); };
   lb.addEventListener("click", e => { if (e.target === lb) close(); });
   document.addEventListener("keydown", e => { if (lb.hidden) return; if (e.key === "Escape") close(); if (e.key === "ArrowLeft") open(cur - 1); if (e.key === "ArrowRight") open(cur + 1); });
+})();
+</script>
+<script>
+/* Drive the photo reels with scrollLeft instead of one giant animated layer, which phones drop */
+(function () {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const reels = [...document.querySelectorAll(".reel")]; if (!reels.length) return;
+  const st = reels.map(r => {
+    const tr = r.querySelector(".track");
+    const dur = parseFloat(getComputedStyle(tr).animationDuration) || 200;
+    return { r, dur, dir: r.classList.contains("rev") ? 1 : -1, pos: null, hold: false };
+  });
+  document.documentElement.classList.add("jsreel");
+  st.forEach(s => { s.r.addEventListener("mouseenter", () => s.hold = true); s.r.addEventListener("mouseleave", () => s.hold = false); });
+  let last = performance.now();
+  function tick(t) {
+    const dt = Math.min(100, t - last) / 1000; last = t;
+    st.forEach(s => {
+      const half = s.r.scrollWidth / 2; if (half < 10) return;
+      if (s.pos === null) s.pos = s.dir < 0 ? half : 0;
+      if (!s.hold) s.pos += s.dir * half / s.dur * dt;
+      if (s.pos >= half) s.pos -= half; if (s.pos < 0) s.pos += half;
+      s.r.scrollLeft = s.pos;
+    });
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
 })();
 </script>
 </body>
