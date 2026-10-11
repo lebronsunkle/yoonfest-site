@@ -324,26 +324,43 @@ if (slides.length < 2 || slides.length > 10) dotsBox.style.display = "none";
 })();
 </script>
 <script>
-/* Drive the photo reels with scrollLeft instead of one giant animated layer, which phones drop */
+/* Photo reels: each photo moves on its own GPU layer with subpixel transforms, recycled in a loop. Smooth on phones. */
 (function () {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const reels = [...document.querySelectorAll(".reel")]; if (!reels.length) return;
-  const st = reels.map(r => {
-    const tr = r.querySelector(".track");
-    const dur = parseFloat(getComputedStyle(tr).animationDuration) || 200;
-    return { r, dur, dir: r.classList.contains("rev") ? 1 : -1, pos: null, hold: false };
+  const cfg = reels.map(r => {
+    const tr = r.querySelector(".track"), cs = getComputedStyle(tr);
+    return { r, tr, dur: parseFloat(cs.animationDuration) || 200, gap: parseFloat(cs.columnGap || cs.gap) || 12,
+             dir: r.classList.contains("rev") ? -1 : 1 };
   });
+  const st = document.createElement("style");
+  st.textContent = ".jsreel .reel .track{animation:none!important;transform:none!important;position:relative;display:block;width:auto}" +
+    ".jsreel .reel .track img{position:absolute;left:0;top:0;will-change:transform;backface-visibility:hidden}";
+  document.head.appendChild(st);
+  cfg.forEach(c => { c.tr.querySelectorAll('img[aria-hidden="true"]').forEach(i => i.remove()); c.imgs = [...c.tr.querySelectorAll("img")]; });
   document.documentElement.classList.add("jsreel");
-  st.forEach(s => { s.r.addEventListener("mouseenter", () => s.hold = true); s.r.addEventListener("mouseleave", () => s.hold = false); });
+  function measure(c) {
+    c.w = c.imgs.map(i => i.getBoundingClientRect().width || 1);
+    c.h = Math.max(...c.imgs.map(i => i.getBoundingClientRect().height)) || 1;
+    c.tr.style.height = c.h + "px";
+    let x = 0; c.start = c.w.map(w => { const s = x; x += w + c.gap; return s; });
+    c.total = x; c.maxW = Math.max(...c.w);
+    c.speed = c.total / c.dur;
+  }
+  cfg.forEach(c => { c.off = 0; c.hold = false; measure(c);
+    c.imgs.forEach(i => i.addEventListener("load", () => measure(c)));
+    c.r.addEventListener("mouseenter", () => c.hold = true); c.r.addEventListener("mouseleave", () => c.hold = false); });
+  window.addEventListener("resize", () => cfg.forEach(measure));
   let last = performance.now();
   function tick(t) {
-    const dt = Math.min(100, t - last) / 1000; last = t;
-    st.forEach(s => {
-      const half = s.r.scrollWidth / 2; if (half < 10) return;
-      if (s.pos === null) s.pos = s.dir < 0 ? half : 0;
-      if (!s.hold) s.pos += s.dir * half / s.dur * dt;
-      if (s.pos >= half) s.pos -= half; if (s.pos < 0) s.pos += half;
-      s.r.scrollLeft = s.pos;
+    const dt = Math.min(0.1, (t - last) / 1000); last = t;
+    cfg.forEach(c => {
+      if (!c.hold) c.off = (c.off + c.dir * c.speed * dt) % c.total;
+      for (let k = 0; k < c.imgs.length; k++) {
+        let x = (c.start[k] + c.off) % c.total; if (x < 0) x += c.total;
+        if (x > c.total - c.maxW - c.gap) x -= c.total;
+        c.imgs[k].style.transform = "translate3d(" + x.toFixed(2) + "px,0,0)";
+      }
     });
     requestAnimationFrame(tick);
   }
