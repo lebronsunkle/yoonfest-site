@@ -58,6 +58,8 @@
     background: #222 center/cover no-repeat;
   }
   .slide.on { opacity: 1; }
+  .slide video { opacity: 0; transition: opacity .4s ease; }
+  .slide.live video { opacity: 1; }
   .slide video, .slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .slide.on img { animation: kb 9s ease-out forwards; }
   @keyframes kb { from { transform: scale(1.0); } to { transform: scale(1.08); } }
@@ -152,6 +154,8 @@
   .v-hero .ph { position: absolute; inset: 0; display: grid; place-items: center; opacity: .5; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; }
   .v-info { padding: 40px 32px 24px; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 48px; }
   .v-info p { opacity: .82; line-height: 1.7; max-width: 60ch; }
+  .v-copy { display: flex; flex-direction: column; gap: 16px; }
+  .v-more a { border-bottom: 1px solid currentColor; }
   .facts { display: grid; gap: 18px; align-content: start; }
   .facts div { display: flex; flex-direction: column; gap: 4px; padding-bottom: 16px; border-bottom: 1px solid rgba(244,239,230,.12); }
   .facts dt { font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; opacity: .6; }
@@ -179,6 +183,7 @@
     <a href="index.html" >Home</a>
     <a href="lineup.html">Lineup</a>
     <a href="venue.html" class="active">Venue</a>
+    <a href="lodging.html">Lodging</a>
     <a href="gallery.html">Gallery</a>
     <a href="contact.html">Contact</a>
   </nav>
@@ -194,14 +199,14 @@
 <section class="page-head"><h1>Venue</h1></section>
 <section class="v-hero"><video src="assets/venue/venue-loop.mp4" poster="assets/venue/venue-loop.jpg" autoplay muted loop playsinline preload="auto" aria-label="The 2027 YOON Fest venue in the Sequoia Forest"></video></section>
 <section class="v-info">
-  <p>For 2027, YOON heads into the Sequoia Forest near Kings Canyon. Three nights under the oaks and pines, with cabins, yurts and wide open mountain views. Full details on camping, getting there and what to bring are on the way.</p>
+  <div class="v-copy"><p>For 2027, YOON heads into the Sequoia Forest near Kings Canyon. Three nights under the oaks and pines with wide open mountain views, a dome with great sound, a wood-fired hot tub and a fire pit to close out the night. Full details on camping, getting there and what to bring are on the way.</p><p class="v-more">Want a bed instead of a tent? <a href="lodging.html">See Lodging</a>.</p></div>
   <dl class="facts">
     <div><dt>Dates</dt><dd>May 7 to 9, 2027</dd></div>
     <div><dt>Location</dt><dd>Sequoia Forest, Kings Canyon, CA</dd></div>
     <div><dt>Tickets</dt><dd><a href="https://shotgun.live/en/festivals/yoon-2027" target="_blank" rel="noopener" style="border-bottom:1px solid currentColor">Get tickets on Shotgun</a></dd></div>
   </dl>
 </section>
-<section class="v-grid" aria-label="Venue photos"><button type="button" data-full="assets/venue/00.jpg" aria-label="Open photo"><img src="assets/venue/00.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/01.jpg" aria-label="Open photo"><img src="assets/venue/01.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/02.jpg" aria-label="Open photo"><img src="assets/venue/02.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/03.jpg" aria-label="Open photo"><img src="assets/venue/03.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/04.jpg" aria-label="Open photo"><img src="assets/venue/04.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/05.jpg" aria-label="Open photo"><img src="assets/venue/05.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/06.jpg" aria-label="Open photo"><img src="assets/venue/06.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/07.jpg" aria-label="Open photo"><img src="assets/venue/07.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/08.jpg" aria-label="Open photo"><img src="assets/venue/08.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/09.jpg" aria-label="Open photo"><img src="assets/venue/09.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/12.jpg" aria-label="Open photo"><img src="assets/venue/12.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/13.jpg" aria-label="Open photo"><img src="assets/venue/13.jpg" alt="" loading="lazy" decoding="async"></button></section>
+<section class="v-grid" aria-label="Venue photos"><button type="button" data-full="assets/venue/00.jpg" aria-label="Open photo"><img src="assets/venue/00.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/lodging/dome/01.jpg" aria-label="Open photo"><img src="assets/lodging/dome/01.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/02.jpg" aria-label="Open photo"><img src="assets/venue/02.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/lodging/grounds-hot-tub-fire-pit/03.jpg" aria-label="Open photo"><img src="assets/lodging/grounds-hot-tub-fire-pit/03.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/03.jpg" aria-label="Open photo"><img src="assets/venue/03.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/lodging/property/05.jpg" aria-label="Open photo"><img src="assets/lodging/property/05.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/06.jpg" aria-label="Open photo"><img src="assets/venue/06.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/lodging/dome/03.jpg" aria-label="Open photo"><img src="assets/lodging/dome/03.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/09.jpg" aria-label="Open photo"><img src="assets/venue/09.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/lodging/grounds-hot-tub-fire-pit/06.jpg" aria-label="Open photo"><img src="assets/lodging/grounds-hot-tub-fire-pit/06.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/12.jpg" aria-label="Open photo"><img src="assets/venue/12.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/lodging/property/07.jpg" aria-label="Open photo"><img src="assets/lodging/property/07.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/venue/13.jpg" aria-label="Open photo"><img src="assets/venue/13.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" data-full="assets/lodging/kitchen-restaurant/02.jpg" aria-label="Open photo"><img src="assets/lodging/kitchen-restaurant/02.jpg" alt="" loading="lazy" decoding="async"></button></section>
 <div class="lightbox" id="lb" hidden><button class="lb-close" aria-label="Close">&times;</button><img id="lbimg" alt=""></div>
 </main>
 <footer>

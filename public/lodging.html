@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lodging | YOON Fest</title>
+<meta name="description" content="YOON Fest 2027. May 7 to 9, Sequoia Forest, Kings Canyon, California.">
+<meta name="format-detection" content="telephone=no, address=no, date=no, email=no">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="YOON Fest">
+<meta property="og:title" content="YOON Fest 2027">
+<meta property="og:description" content="May 7 to 9, 2027. Sequoia Forest, Kings Canyon, CA.">
+<meta property="og:url" content="https://yoonfest.us/">
+<meta property="og:image" content="https://yoonfest.us/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yoonfest.us/assets/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #f4efe6;
+    --dark: #0d0d0c;
+    --accent: #f4efe6;
+    --overlay: rgba(0,0,0,.35);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--dark); color: var(--ink); font-family: Inter, system-ui, sans-serif; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- Top bar ---------- */
+  header {
+    position: fixed; inset: 0 0 auto 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 32px;
+  }
+  header { transition: background .3s, backdrop-filter .3s; }
+  header.solid { background: rgba(13,13,12,.82); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  nav.main { display: flex; gap: 28px; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
+  nav.main a { opacity: .85; transition: opacity .2s; }
+  nav.main a:hover, nav.main a.active { opacity: 1; }
+  .right { display: flex; align-items: center; gap: 18px; }
+  .ig { width: 22px; height: 22px; display: grid; place-items: center; opacity: .9; }
+  .ig:hover { opacity: 1; }
+  .btn {
+    display: inline-block; padding: 10px 22px; border: 1.5px solid var(--ink);
+    font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    transition: background .2s, color .2s;
+  }
+  .btn:hover { background: var(--ink); color: var(--dark); }
+  .burger { display: none; background: none; border: 0; color: var(--ink); cursor: pointer; }
+
+  /* ---------- Hero slideshow ---------- */
+  .hero { position: relative; height: 100vh; height: 100svh; overflow: hidden; }
+  .slide {
+    position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s ease;
+    background: #222 center/cover no-repeat;
+  }
+  .slide.on { opacity: 1; }
+  .slide video { opacity: 0; transition: opacity .4s ease; }
+  .slide.live video { opacity: 1; }
+  .slide video, .slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .slide.on img { animation: kb 9s ease-out forwards; }
+  @keyframes kb { from { transform: scale(1.0); } to { transform: scale(1.08); } }
+  .hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 65% 75% at 50% 58%, rgba(0,0,0,.62), rgba(0,0,0,.38) 75%), linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,0) 18%, rgba(0,0,0,0) 75%, rgba(0,0,0,.45)); pointer-events: none; }
+
+  .center {
+    position: absolute; inset: 0; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 0 24px; gap: 22px;
+  }
+  .logo img { height: min(46vh, 440px); width: auto; max-width: 78vw; display: block; filter: drop-shadow(0 2px 18px rgba(0,0,0,.35)); }
+  .brand img { height: 22px; width: auto; display: block; transform: translateY(-2px); }
+  .left { display: flex; align-items: center; gap: 40px; }
+  .logo .wordmark { font-family: "Archivo Black", sans-serif; font-size: clamp(64px, 14vw, 180px); line-height: .9; letter-spacing: -.02em; }
+  .dates { font-size: clamp(16px, 2.2vw, 22px); font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
+  .place { font-size: 13px; letter-spacing: .2em; text-transform: uppercase; opacity: .85; margin-top: -12px; }
+  .center .btn { padding: 14px 34px; font-size: 14px; }
+  .meaning { max-width: 540px; margin-top: -8px; font-size: 13px; letter-spacing: .06em; opacity: .85; font-style: italic; text-shadow: 0 1px 3px rgba(0,0,0,.8), 0 0 18px rgba(0,0,0,.6); }
+  .meaning span { font-style: normal; font-weight: 600; letter-spacing: .18em; }
+  .blurb { max-width: 540px; font-size: 15px; line-height: 1.6; text-shadow: 0 1px 3px rgba(0,0,0,.8), 0 0 18px rgba(0,0,0,.6); margin-top: 4px; }
+
+  .dots { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 3; display: flex; gap: 8px; }
+  .dots button { width: 8px; height: 8px; border-radius: 50%; border: 0; background: var(--ink); opacity: .4; cursor: pointer; }
+  .dots button.on { opacity: 1; }
+
+
+  /* ---------- Photo reels ---------- */
+  html, body { height: auto; }
+  .archive { padding: 72px 0 56px; display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+  .archive-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 0 32px 18px; }
+  .archive h2 { font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
+  .archive .more { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; opacity: .7; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+  .archive .more:hover { opacity: 1; }
+  .reel { overflow: hidden; }
+  .track { display: flex; gap: 14px; width: max-content; animation: drift 200s linear infinite; }
+  .reel.r2 .track { animation-duration: 240s; }
+  .track img { height: clamp(180px, 26vw, 340px); width: auto; display: block; border-radius: 2px; filter: saturate(1.05); }
+  .reel:hover .track { animation-play-state: paused; }
+
+  .jsreel .reel .track { animation: none !important; transform: none !important; }
+  @keyframes drift { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  @media (prefers-reduced-motion: reduce) { .track { animation: none; } .reel { overflow-x: auto; } }
+  .news { padding: 72px 32px 88px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; border-top: 1px solid rgba(244,239,230,.12); }
+  .news h2 { font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
+  .news p { opacity: .75; font-size: 15px; line-height: 1.6; max-width: 46ch; }
+  .news form { display: flex; flex-direction: column; align-items: center; gap: 18px; width: min(520px, 100%); margin-top: 8px; }
+  .news input[type=email] { width: 100%; font: 15px/1.5 Inter, system-ui, sans-serif; color: var(--ink); background: rgba(244,239,230,.06); border: 1px solid rgba(244,239,230,.25); border-radius: 2px; padding: 14px 16px; letter-spacing: .04em; }
+  .news input[type=email]::placeholder { color: rgba(244,239,230,.5); text-transform: uppercase; letter-spacing: .14em; font-size: 13px; }
+  .news input[type=email]:focus { outline: none; border-color: var(--ink); background: rgba(244,239,230,.1); }
+  .news button { cursor: pointer; background: none; color: var(--ink); font-family: inherit; padding: 14px 32px; }
+  .news .hp { position: absolute; left: -9999px; }
+  .news .done { font-size: 14px; letter-spacing: .08em; opacity: .9; }
+  @media (max-width: 760px) { .news { padding: 56px 16px 64px; } }
+  footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 28px 32px 36px; border-top: 1px solid rgba(244,239,230,.12); font-size: 13px; letter-spacing: .06em; opacity: .85; }
+  .foot-logo { height: 16px; width: auto; }
+  @media (max-width: 760px) { .archive { padding: 48px 0 40px; } .archive-head, footer { padding-left: 16px; padding-right: 16px; } .track { gap: 10px; } }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 760px) {
+    header { padding: 16px; }
+    .burger { display: block; }
+    nav.main {
+      position: fixed; inset: 0; background: var(--dark);
+      flex-direction: column; align-items: center; justify-content: center; gap: 34px; font-size: 22px;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
+    }
+    nav.main.open { opacity: 1; pointer-events: auto; }
+    header.menu-open, header.solid.menu-open { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+    .burger, .brand, .right { position: relative; z-index: 2; }
+    body.menu-open { overflow: hidden; }
+    .right .btn { padding: 8px 14px; font-size: 12px; }
+    .left { gap: 14px; }
+    .brand img { height: 18px; transform: translateY(-4px); }
+    .logo img { height: min(32vh, 300px); }
+    .center { gap: 16px; }
+    .blurb { font-size: 13.5px; }
+    .meaning { font-size: 12px; }
+    .place { letter-spacing: .12em; font-size: 11.5px; }
+    .dates { letter-spacing: .14em; }
+  }
+</style>
+<style>
+
+  body.sub main { padding-top: 96px; }
+  .page-head { padding: 24px 32px 28px; display: flex; flex-direction: column; gap: 10px; }
+  .page-head h1 { font-size: clamp(28px, 4vw, 44px); font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .page-head p { max-width: 58ch; opacity: .8; line-height: 1.6; font-size: 15px; }
+  @media (max-width: 760px) { body.sub main { padding-top: 80px; } .page-head { padding: 16px 16px 22px; } }
+
+  .l-intro { padding: 0 32px 36px; max-width: 760px; }
+  .l-intro p { opacity: .82; line-height: 1.7; font-size: 16px; }
+  .l-cards { padding: 0 32px 64px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; align-items: start; }
+  .l-card { background: rgba(244,239,230,.04); border: 1px solid rgba(244,239,230,.12); border-radius: 2px; overflow: hidden; display: flex; flex-direction: column; }
+  .l-card button { padding: 0; border: 0; background: none; cursor: zoom-in; display: block; }
+  .l-lead { position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; }
+  .l-lead img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+  .l-lead:hover img { transform: scale(1.03); }
+  .l-count { color: var(--ink); position: absolute; right: 12px; bottom: 10px; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; background: rgba(13,13,12,.7); padding: 6px 10px; border-radius: 2px; }
+  .l-thumbs { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; padding: 4px; }
+  .l-thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; border-radius: 1px; transition: filter .2s; }
+  .l-thumbs button:hover img { filter: brightness(1.15); }
+  .l-body { padding: 24px 24px 28px; display: flex; flex-direction: column; gap: 14px; }
+  .l-body h2 { font-size: 20px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .l-price { font-size: 15px; opacity: .85; } .l-price strong { font-size: 26px; font-weight: 600; letter-spacing: .02em; margin-right: 6px; }
+  .l-facts { list-style: none; display: grid; gap: 8px; font-size: 15px; line-height: 1.5; }
+  .l-facts li { padding-left: 18px; position: relative; opacity: .85; }
+  .l-facts li::before { content: ""; position: absolute; left: 0; top: .75em; width: 8px; height: 1px; background: currentColor; opacity: .7; }
+  .l-note { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; opacity: .65; }
+  .l-book { align-self: flex-start; margin-top: 6px; padding: 12px 34px; }
+  .l-sec { padding: 0 32px 64px; display: flex; flex-direction: column; gap: 18px; }
+  .l-sec h2 { font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; padding-top: 28px; border-top: 1px solid rgba(244,239,230,.12); }
+  .l-sec p { opacity: .78; line-height: 1.6; max-width: 60ch; }
+  .l-strip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 900px; }
+  .l-strip button, .l-map { padding: 0; border: 0; background: none; cursor: zoom-in; display: block; }
+  .l-strip img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; border-radius: 2px; }
+  .l-map { background: #f4efe6; border-radius: 2px; overflow: hidden; max-width: 620px; width: 100%; }
+  .l-map img { width: 100%; height: auto; display: block; }
+  .lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(8,8,7,.95); display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .lightbox[hidden] { display: none; }
+  .lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .lightbox button { position: absolute; background: none; border: 0; color: var(--ink); cursor: pointer; padding: 14px; font-size: 30px; line-height: 1; opacity: .85; }
+  .lightbox button[hidden] { display: none; }
+  .lb-close { top: 12px; right: 12px; } .lb-prev { left: 6px; top: 50%; transform: translateY(-50%); } .lb-next { right: 6px; top: 50%; transform: translateY(-50%); }
+  .l-last { padding-bottom: 110px; }
+  @media (max-width: 860px) { .l-intro { padding: 0 16px 28px; } .l-cards { grid-template-columns: 1fr; padding: 0 16px 48px; gap: 22px; } .l-sec { padding: 0 16px 48px; } .l-strip { gap: 8px; } .l-body { padding: 20px 18px 24px; } .l-last { padding-bottom: 80px; } }
+
+</style>
+</head>
+<body class="sub">
+<header class="solid">
+  <div class="left">
+  <button class="burger" aria-label="Menu" onclick="var o=document.querySelector('nav.main').classList.toggle('open');document.querySelector('header').classList.toggle('menu-open',o);document.body.classList.toggle('menu-open',o)">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+  </button>
+  <a class="brand" href="index.html" aria-label="YOON home"><img src="assets/yoon-wordmark.png" alt="YOON"></a>
+  <nav class="main" onclick="if(event.target.tagName==='A'){this.classList.remove('open');document.querySelector('header').classList.remove('menu-open');document.body.classList.remove('menu-open')}">
+    <a href="index.html" >Home</a>
+    <a href="lineup.html">Lineup</a>
+    <a href="venue.html">Venue</a>
+    <a href="lodging.html" class="active">Lodging</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  </div>
+  <div class="right">
+    <a class="ig" href="https://instagram.com/yoonfest" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+    </a>
+    <a class="btn tickets" href="https://shotgun.live/en/festivals/yoon-2027" target="_blank" rel="noopener">Tickets</a>
+  </div>
+</header>
+<main>
+<section class="page-head"><h1>Lodging</h1></section>
+<section class="l-intro"><p>Most of YOON camps under the trees. If you'd rather sleep indoors, there's a small number of yurts and one private cabin available for the festival weekend. Once they're gone, they're gone.</p></section>
+<section class="l-cards" aria-label="Lodging options">
+  <article class="l-card">
+    <button type="button" class="l-lead lb-open" data-group="cabin" data-i="0" aria-label="Open Pine Ridge Cabin photos"><img src="assets/lodging/cabin-1-pine-ridge/03.jpg" alt="Pine Ridge Cabin" loading="lazy" decoding="async"><span class="l-count">4 photos</span></button>
+    <div class="l-thumbs"><button type="button" class="lb-open" data-group="cabin" data-i="1" aria-label="Open photo 2"><img src="assets/lodging/cabin-1-pine-ridge/01.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" class="lb-open" data-group="cabin" data-i="2" aria-label="Open photo 3"><img src="assets/lodging/cabin-1-pine-ridge/02.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" class="lb-open" data-group="cabin" data-i="3" aria-label="Open photo 4"><img src="assets/lodging/cabin-1-pine-ridge/04.jpg" alt="" loading="lazy" decoding="async"></button></div>
+    <div class="l-body">
+      <h2>Pine Ridge Cabin</h2>
+      <p class="l-price"><strong>$3,000</strong> for the festival weekend</p>
+      <ul class="l-facts"><li>Sleeps 4</li><li>2 bedrooms, each with a queen bed</li><li>Private bathroom with walk-in shower</li><li>Full kitchen with fridge, stove and oven</li><li>Living and dining room with a wood stove</li><li>Private deck with a table</li></ul>
+      <p class="l-note">Only 1 available</p>
+      <!-- TODO: swap this Shotgun link for a direct lodging checkout (Stripe or a Shotgun add-on) once it exists -->
+      <a class="btn l-book" href="https://shotgun.live/en/festivals/yoon-2027" target="_blank" rel="noopener">Book</a>
+    </div>
+  </article>
+  <article class="l-card">
+    <button type="button" class="l-lead lb-open" data-group="yurt" data-i="0" aria-label="Open Yurts photos"><img src="assets/lodging/yurts/05.jpg" alt="Yurts" loading="lazy" decoding="async"><span class="l-count">6 photos</span></button>
+    <div class="l-thumbs"><button type="button" class="lb-open" data-group="yurt" data-i="1" aria-label="Open photo 2"><img src="assets/lodging/yurts/06.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" class="lb-open" data-group="yurt" data-i="2" aria-label="Open photo 3"><img src="assets/lodging/yurts/01.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" class="lb-open" data-group="yurt" data-i="3" aria-label="Open photo 4"><img src="assets/lodging/yurts/02.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" class="lb-open" data-group="yurt" data-i="4" aria-label="Open photo 5"><img src="assets/lodging/yurts/03.jpg" alt="" loading="lazy" decoding="async"></button><button type="button" class="lb-open" data-group="yurt" data-i="5" aria-label="Open photo 6"><img src="assets/lodging/yurts/04.jpg" alt="" loading="lazy" decoding="async"></button></div>
+    <div class="l-body">
+      <h2>Yurts</h2>
+      <p class="l-price"><strong>$1,800</strong> per yurt for the festival weekend</p>
+      <ul class="l-facts"><li>Sleeps 4</li><li>1 queen bed and 2 twin beds</li><li>Shared bath house a short walk away with 8 hot showers, 8 toilets and 4 sinks</li></ul>
+      <p class="l-note">Limited number available</p>
+      <!-- TODO: swap this Shotgun link for a direct lodging checkout (Stripe or a Shotgun add-on) once it exists -->
+      <a class="btn l-book" href="https://shotgun.live/en/festivals/yoon-2027" target="_blank" rel="noopener">Book</a>
+    </div>
+  </article>
+</section>
+<!-- TODO (confirm with Adam before showing):
+  <section class="l-sec"><p>Festival tickets are sold separately. Every guest staying in a cabin or yurt needs their own festival ticket.</p><p>Lodging is for the full festival weekend only.</p></section>
+-->
+<!-- TODO: what is included (bedding, pillows, blankets, towels, heat, power) and check-in / check-out times, once the venue confirms. -->
+<section class="l-sec" aria-label="Bath house">
+  <h2>The bath house</h2>
+  <p>Yurt guests share the bath house, a short walk away. Two rooms with hot showers, toilets and sinks.</p>
+  <div class="l-strip"><button type="button" class="lb-open" data-group="bath" data-i="0" aria-label="Open bath house photo 1"><img src="assets/lodging/bath-house/01.jpg" alt="Shared bath house" loading="lazy" decoding="async"></button><button type="button" class="lb-open" data-group="bath" data-i="1" aria-label="Open bath house photo 2"><img src="assets/lodging/bath-house/02.jpg" alt="Shared bath house" loading="lazy" decoding="async"></button></div>
+</section>
+<section class="l-sec l-last" aria-label="Map of the grounds">
+  <h2>The grounds</h2>
+  <button type="button" class="l-map lb-open" data-group="map" data-i="0" aria-label="Open map of the grounds"><img src="assets/lodging/property-map/clean-public.jpg" alt="Map of the festival grounds" loading="lazy" decoding="async"></button>
+</section>
+<div class="lightbox" id="lb" hidden><button class="lb-close" aria-label="Close">&times;</button><button class="lb-prev" aria-label="Previous">&#8249;</button><img id="lbimg" alt=""><button class="lb-next" aria-label="Next">&#8250;</button></div>
+</main>
+<footer>
+  <img src="assets/yoon-wordmark.png" alt="YOON" class="foot-logo">
+  <span>May 7 to 9, 2027 &middot; Sequoia Forest, Kings Canyon, CA</span>
+  <a href="https://instagram.com/yoonfest" target="_blank" rel="noopener">@yoonfest</a>
+</footer>
+<script>
+const GROUPS = {"cabin": ["assets/lodging/cabin-1-pine-ridge/03.jpg", "assets/lodging/cabin-1-pine-ridge/01.jpg", "assets/lodging/cabin-1-pine-ridge/02.jpg", "assets/lodging/cabin-1-pine-ridge/04.jpg"], "yurt": ["assets/lodging/yurts/05.jpg", "assets/lodging/yurts/06.jpg", "assets/lodging/yurts/01.jpg", "assets/lodging/yurts/02.jpg", "assets/lodging/yurts/03.jpg", "assets/lodging/yurts/04.jpg"], "bath": ["assets/lodging/bath-house/01.jpg", "assets/lodging/bath-house/02.jpg"], "map": ["assets/lodging/property-map/clean-public.jpg"]};
+(function(){ const lb=document.getElementById("lb"), im=document.getElementById("lbimg"), prev=lb.querySelector(".lb-prev"), nxt=lb.querySelector(".lb-next");
+  let g=[], i=0;
+  const show=()=>{ im.src=g[i]; const many=g.length>1; prev.hidden=!many; nxt.hidden=!many; };
+  document.querySelectorAll(".lb-open").forEach(b=>b.addEventListener("click",()=>{ g=GROUPS[b.dataset.group]||[]; i=+b.dataset.i||0; show(); lb.hidden=false; }));
+  const close=()=>{ lb.hidden=true; im.removeAttribute("src"); };
+  prev.onclick=e=>{ e.stopPropagation(); i=(i-1+g.length)%g.length; show(); };
+  nxt.onclick=e=>{ e.stopPropagation(); i=(i+1)%g.length; show(); };
+  lb.addEventListener("click",e=>{ if(e.target===lb||e.target.classList.contains("lb-close")) close(); });
+  document.addEventListener("keydown",e=>{ if(lb.hidden) return; if(e.key==="Escape") close(); if(e.key==="ArrowLeft") prev.click(); if(e.key==="ArrowRight") nxt.click(); });
+})();
+</script>
+</body>
+</html>
