@@ -44,7 +44,7 @@ function checkoutOpen(env, url) {
 }
 
 function stock(env) {
-  const name = isLive(env) ? "lodging-2027" : "lodging-2027-test";
+  const name = isLive(env) ? "lodging-2027-live" : "lodging-2027";
   return env.INVENTORY.get(env.INVENTORY.idFromName(name));
 }
 
