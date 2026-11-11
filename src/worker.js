@@ -18,6 +18,11 @@ const HOLD_MS = (SESSION_MINUTES + 2) * 60 * 1000;
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    // yoonfest.com is the main address. Send the old .us domain and www to it,
+    // except the Stripe webhook, which Stripe posts to directly.
+    if (url.hostname !== "yoonfest.com" && /(^|\.)yoonfest\.(us|com)$/.test(url.hostname) && url.pathname !== "/api/stripe-webhook") {
+      return Response.redirect("https://yoonfest.com" + url.pathname + url.search, 301);
+    }
     if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
     try {
       if (url.pathname === "/api/inventory" && request.method === "GET") return inventory(env, url);
