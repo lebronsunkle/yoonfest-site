@@ -74,11 +74,17 @@ async function checkout(request, env, url) {
     "payment_intent_data[metadata][hold]": hold,
     "payment_intent_data[metadata][product]": key,
     "phone_number_collection[enabled]": "true",
-    "custom_fields[0][key]": "guests",
+    "custom_fields[0][key]": "purchaser",
     "custom_fields[0][label][type]": "custom",
-    "custom_fields[0][label][custom]": "Names of everyone staying",
+    "custom_fields[0][label][custom]": "Your full name",
     "custom_fields[0][type]": "text",
-    "custom_fields[0][text][maximum_length]": "255",
+    "custom_fields[0][text][maximum_length]": "100",
+    "custom_fields[1][key]": "guests",
+    "custom_fields[1][label][type]": "custom",
+    "custom_fields[1][label][custom]": "Other guests",
+    "custom_fields[1][type]": "text",
+    "custom_fields[1][optional]": "true",
+    "custom_fields[1][text][maximum_length]": "255",
   };
   // No payment_method_types here on purpose: Stripe shows whatever is turned on in the
   // dashboard (card, Apple Pay, Google Pay, Affirm, Klarna).
