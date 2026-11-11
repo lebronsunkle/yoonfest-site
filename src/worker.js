@@ -60,7 +60,7 @@ async function checkout(request, env, url) {
 
   const origin = url.origin;
   const params = {
-    mode: "checkout",
+    mode: "payment",
     "line_items[0][quantity]": "1",
     "line_items[0][price_data][currency]": "usd",
     "line_items[0][price_data][unit_amount]": String(product.amount),
