@@ -169,7 +169,8 @@
   .l-facts li::before { content: ""; position: absolute; left: 0; top: .75em; width: 8px; height: 1px; background: currentColor; opacity: .7; }
   .l-note { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; opacity: .65; }
   .l-book { align-self: flex-start; margin-top: 6px; padding: 12px 34px; }
-  .l-book.is-out { opacity: .45; pointer-events: none; cursor: default; }
+  .l-book.is-out, .l-book.is-soon { opacity: .45; pointer-events: none; cursor: default; }
+  .l-policy { padding: 0 32px 8px; max-width: 760px; font-size: 14px; opacity: .7; }
   .l-err { font-size: 14px; line-height: 1.5; opacity: .85; margin: 0; }
   .l-sec { padding: 0 32px 64px; display: flex; flex-direction: column; gap: 18px; }
   .l-sec h2 { font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; padding-top: 28px; border-top: 1px solid rgba(244,239,230,.12); }
@@ -225,7 +226,7 @@
       <p class="l-price"><strong>$1,800</strong> per yurt for the festival weekend</p>
       <ul class="l-facts"><li>Sleeps 4</li><li>1 queen bed and 2 twin beds</li><li>Shared bath house a short walk away with 8 hot showers, 8 toilets and 4 sinks</li></ul>
       <p class="l-note" data-note="yurt">Limited number available</p>
-      <a class="btn l-book" data-product="yurt" href="https://shotgun.live/en/festivals/yoon-2027" target="_blank" rel="noopener">Book</a>
+      <a class="btn l-book is-soon" data-product="yurt" aria-disabled="true">Coming soon</a>
       <p class="l-err" data-err="yurt" role="status" hidden></p>
     </div>
   </article>
@@ -237,11 +238,12 @@
       <p class="l-price"><strong>$3,000</strong> for the festival weekend</p>
       <ul class="l-facts"><li>Sleeps 4</li><li>2 bedrooms, each with a queen bed</li><li>Private bathroom with walk-in shower</li><li>Full kitchen with fridge, stove and oven</li><li>Living and dining room with a wood stove</li><li>Private deck with a table</li></ul>
       <p class="l-note" data-note="cabin">Only 1 available</p>
-      <a class="btn l-book" data-product="cabin" href="https://shotgun.live/en/festivals/yoon-2027" target="_blank" rel="noopener">Book</a>
+      <a class="btn l-book is-soon" data-product="cabin" aria-disabled="true">Coming soon</a>
       <p class="l-err" data-err="cabin" role="status" hidden></p>
     </div>
   </article>
 </section>
+<p class="l-policy">All lodging sales are final and non-refundable.</p>
 <!-- TODO (confirm with Adam before showing):
   <section class="l-sec"><p>Festival tickets are sold separately. Every guest staying in a cabin or yurt needs their own festival ticket.</p><p>Lodging is for the full festival weekend only.</p></section>
 -->
@@ -286,7 +288,7 @@ const GROUPS = {"cabin": ["assets/lodging/cabin-1-pine-ridge/03.jpg", "assets/lo
       const note=document.querySelector('[data-note="'+k+'"]');
       a.removeAttribute("target"); a.removeAttribute("rel"); a.textContent="Book";
       if(p.left<=0){ a.textContent="Sold out"; a.classList.add("is-out"); a.setAttribute("aria-disabled","true"); a.removeAttribute("href"); a.onclick=null; if(note) note.textContent="Sold out"; }
-      else { a.classList.remove("is-out"); a.removeAttribute("aria-disabled"); a.href="#book-"+k; a.onclick=book; if(note) note.textContent=p.cap===1?"Only 1 available":p.left+" left"; } }); };
+      else { a.classList.remove("is-out","is-soon"); a.removeAttribute("aria-disabled"); a.href="#book-"+k; a.onclick=book; if(note) note.textContent=p.cap===1?"Only 1 available":p.left+" left"; } }); };
   const refresh=()=>load().then(apply);
   async function book(e){ e.preventDefault(); const a=e.currentTarget; if(a.dataset.busy) return; a.dataset.busy="1";
     const err=document.querySelector('[data-err="'+a.dataset.product+'"]'); err.hidden=true; a.textContent="One sec...";

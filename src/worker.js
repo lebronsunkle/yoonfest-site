@@ -87,6 +87,7 @@ async function checkout(request, env, url) {
     "payment_intent_data[metadata][hold]": hold,
     "payment_intent_data[metadata][product]": key,
     "phone_number_collection[enabled]": "true",
+    "custom_text[submit][message]": "All lodging sales are final and non-refundable.",
     "custom_fields[0][key]": "purchaser",
     "custom_fields[0][label][type]": "custom",
     "custom_fields[0][label][custom]": "Your full name",
