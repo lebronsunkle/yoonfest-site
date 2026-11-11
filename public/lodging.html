@@ -275,11 +275,12 @@ const GROUPS = {"cabin": ["assets/lodging/cabin-1-pine-ridge/03.jpg", "assets/lo
   document.addEventListener("keydown",e=>{ if(lb.hidden) return; if(e.key==="Escape") close(); if(e.key==="ArrowLeft") prev.click(); if(e.key==="ArrowRight") nxt.click(); });
 })();
 (function(){
-  const post=(u,b)=>fetch(u,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(b)});
+  const T=new URLSearchParams(location.search).get("test")==="1"?"?test=1":"";
+  const post=(u,b)=>fetch(u+T,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(b)});
   const qs=new URLSearchParams(location.search), rel=qs.get("release");
   let ready=Promise.resolve();
-  if(rel){ ready=post("/api/release",{hold:rel}).catch(()=>{}); history.replaceState(null,"",location.pathname); }
-  const load=()=>fetch("/api/inventory",{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
+  if(rel){ ready=post("/api/release",{hold:rel}).catch(()=>{}); history.replaceState(null,"",location.pathname+T); }
+  const load=()=>fetch("/api/inventory"+T,{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
   const apply=d=>{ if(!d||!d.enabled) return;
     document.querySelectorAll(".l-book[data-product]").forEach(a=>{ const k=a.dataset.product, p=d.products[k]; if(!p) return;
       const note=document.querySelector('[data-note="'+k+'"]');

@@ -20,7 +20,7 @@ export default {
     const url = new URL(request.url);
     if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
     try {
-      if (url.pathname === "/api/inventory" && request.method === "GET") return inventory(env);
+      if (url.pathname === "/api/inventory" && request.method === "GET") return inventory(env, url);
       if (url.pathname === "/api/checkout" && request.method === "POST") return checkout(request, env, url);
       if (url.pathname === "/api/release" && request.method === "POST") return release(request, env);
       if (url.pathname === "/api/stripe-webhook" && request.method === "POST") return webhook(request, env);
@@ -32,8 +32,20 @@ export default {
   },
 };
 
+// Live sales and test sales are counted separately, so test purchases never block real ones.
+function isLive(env) {
+  return String(env.STRIPE_SECRET_KEY || "").startsWith("sk_live_");
+}
+
+// With a test key, checkout is hidden from the public and only works at /lodging.html?test=1.
+function checkoutOpen(env, url) {
+  if (!env.STRIPE_SECRET_KEY) return false;
+  return isLive(env) || url.searchParams.get("test") === "1";
+}
+
 function stock(env) {
-  return env.INVENTORY.get(env.INVENTORY.idFromName("lodging-2027"));
+  const name = isLive(env) ? "lodging-2027" : "lodging-2027-test";
+  return env.INVENTORY.get(env.INVENTORY.idFromName(name));
 }
 
 function json(data, status = 200) {
@@ -43,13 +55,13 @@ function json(data, status = 200) {
   });
 }
 
-async function inventory(env) {
+async function inventory(env, url) {
   const counts = await stock(env).counts(PRODUCTS);
-  return json({ enabled: Boolean(env.STRIPE_SECRET_KEY), products: counts });
+  return json({ enabled: checkoutOpen(env, url), products: counts });
 }
 
 async function checkout(request, env, url) {
-  if (!env.STRIPE_SECRET_KEY) return json({ error: "not_enabled" }, 503);
+  if (!checkoutOpen(env, url)) return json({ error: "not_enabled" }, 503);
   const body = await request.json().catch(() => ({}));
   const key = body.product;
   const product = PRODUCTS[key];
@@ -59,14 +71,15 @@ async function checkout(request, env, url) {
   if (!hold) return json({ error: "sold_out" }, 409);
 
   const origin = url.origin;
+  const t = isLive(env) ? "" : "&test=1";
   const params = {
     mode: "payment",
     "line_items[0][quantity]": "1",
     "line_items[0][price_data][currency]": "usd",
     "line_items[0][price_data][unit_amount]": String(product.amount),
     "line_items[0][price_data][product_data][name]": product.name,
-    success_url: `${origin}/lodging-thanks.html?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${origin}/lodging.html?release=${hold}`,
+    success_url: `${origin}/lodging-thanks.html?session_id={CHECKOUT_SESSION_ID}${t}`,
+    cancel_url: `${origin}/lodging.html?release=${hold}${t}`,
     expires_at: String(Math.floor(Date.now() / 1000) + SESSION_MINUTES * 60),
     client_reference_id: hold,
     "metadata[hold]": hold,
