@@ -1,7 +1,15 @@
 {
   "name": "yoonfest-site",
+  "main": "src/worker.js",
   "compatibility_date": "2025-09-01",
   "assets": {
-    "directory": "./public"
-  }
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "INVENTORY", "class_name": "Inventory" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Inventory"] }],
+  "observability": { "enabled": true }
 }
