@@ -172,7 +172,7 @@
   .l-sec { padding: 0 32px 64px; display: flex; flex-direction: column; gap: 18px; }
   .l-sec h2 { font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; padding-top: 28px; border-top: 1px solid rgba(244,239,230,.12); }
   .l-sec p { opacity: .78; line-height: 1.6; max-width: 60ch; }
-  .l-strip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 900px; }
+  .l-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
   .l-strip button, .l-map { padding: 0; border: 0; background: none; cursor: zoom-in; display: block; }
   .l-strip img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; border-radius: 2px; }
   .l-map { background: #f4efe6; border-radius: 2px; overflow: hidden; max-width: 620px; width: 100%; }
@@ -247,7 +247,7 @@
 <section class="l-sec" aria-label="Bath house">
   <h2>The bath house</h2>
   <p>Yurt guests share the bath house, a short walk away. Two rooms with hot showers, toilets and sinks.</p>
-  <div class="l-strip"><button type="button" class="lb-open" data-group="bath" data-i="0" aria-label="Open bath house photo 1"><img src="assets/lodging/bath-house/01.jpg" alt="Shared bath house" loading="lazy" decoding="async"></button><button type="button" class="lb-open" data-group="bath" data-i="1" aria-label="Open bath house photo 2"><img src="assets/lodging/bath-house/02.jpg" alt="Shared bath house" loading="lazy" decoding="async"></button></div>
+  <div class="l-strip"><button type="button" class="lb-open" data-group="bath" data-i="0" aria-label="Open bath house photo 1"><img src="assets/lodging/bath-house/exterior.jpg" alt="Shared bath house" loading="lazy" decoding="async"></button><button type="button" class="lb-open" data-group="bath" data-i="1" aria-label="Open bath house photo 2"><img src="assets/lodging/bath-house/01.jpg" alt="Shared bath house" loading="lazy" decoding="async"></button><button type="button" class="lb-open" data-group="bath" data-i="2" aria-label="Open bath house photo 3"><img src="assets/lodging/bath-house/02.jpg" alt="Shared bath house" loading="lazy" decoding="async"></button></div>
 </section>
 <section class="l-sec l-last" aria-label="Map of the grounds">
   <h2>The grounds</h2>
@@ -261,7 +261,7 @@
   <a href="https://instagram.com/yoonfest" target="_blank" rel="noopener">@yoonfest</a>
 </footer>
 <script>
-const GROUPS = {"cabin": ["assets/lodging/cabin-1-pine-ridge/03.jpg", "assets/lodging/cabin-1-pine-ridge/01.jpg", "assets/lodging/cabin-1-pine-ridge/02.jpg", "assets/lodging/cabin-1-pine-ridge/04.jpg"], "yurt": ["assets/lodging/yurts/05.jpg", "assets/lodging/yurts/06.jpg", "assets/lodging/yurts/01.jpg", "assets/lodging/yurts/02.jpg", "assets/lodging/yurts/03.jpg", "assets/lodging/yurts/04.jpg"], "bath": ["assets/lodging/bath-house/01.jpg", "assets/lodging/bath-house/02.jpg"], "map": ["assets/lodging/property-map/clean-public.jpg"]};
+const GROUPS = {"cabin": ["assets/lodging/cabin-1-pine-ridge/03.jpg", "assets/lodging/cabin-1-pine-ridge/01.jpg", "assets/lodging/cabin-1-pine-ridge/02.jpg", "assets/lodging/cabin-1-pine-ridge/04.jpg"], "yurt": ["assets/lodging/yurts/05.jpg", "assets/lodging/yurts/06.jpg", "assets/lodging/yurts/01.jpg", "assets/lodging/yurts/02.jpg", "assets/lodging/yurts/03.jpg", "assets/lodging/yurts/04.jpg"], "bath": ["assets/lodging/bath-house/exterior.jpg", "assets/lodging/bath-house/01.jpg", "assets/lodging/bath-house/02.jpg"], "map": ["assets/lodging/property-map/clean-public.jpg"]};
 (function(){ const lb=document.getElementById("lb"), im=document.getElementById("lbimg"), prev=lb.querySelector(".lb-prev"), nxt=lb.querySelector(".lb-next");
   let g=[], i=0;
   const show=()=>{ im.src=g[i]; const many=g.length>1; prev.hidden=!many; nxt.hidden=!many; };
