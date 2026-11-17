@@ -297,7 +297,8 @@ const GROUPS = {"cabin": ["assets/lodging/cabin-1-pine-ridge/03.jpg", "assets/lo
     let msg="Something went wrong on our end. Try again in a minute, or reach us through the Contact page.";
     try{ const r=await post("/api/checkout",{product:a.dataset.product}); const d=await r.json().catch(()=>({}));
       if(r.ok&&d.url){ location.href=d.url; return; }
-      if(d.error==="sold_out") msg="That one's taken right now. If someone doesn't finish checking out it comes back within about 30 minutes.";
+      if(d.error==="held") msg="Someone's checking out on that one right now. If they don't finish, it comes back within about 30 minutes, so check back soon.";
+      if(d.error==="sold_out") msg="That one just sold out.";
     }catch(_){}
     err.textContent=msg; err.hidden=false; delete a.dataset.busy; refresh(); }
   window.addEventListener("pageshow",e=>{ if(e.persisted){ document.querySelectorAll(".l-book").forEach(a=>delete a.dataset.busy); refresh(); } });

@@ -74,7 +74,11 @@ async function checkout(request, env, url) {
   if (!product) return json({ error: "bad_product" }, 400);
 
   const hold = await stock(env).hold(key, product.cap, HOLD_MS);
-  if (!hold) return json({ error: "sold_out" }, 409);
+  if (!hold) {
+    // Paid out = sold out. Otherwise someone is mid-checkout on the last one(s).
+    const c = (await stock(env).counts(PRODUCTS))[key];
+    return json({ error: c.left <= 0 ? "sold_out" : "held" }, 409);
+  }
 
   const origin = url.origin;
   const t = isLive(env) ? "" : "&test=1";
@@ -202,8 +206,11 @@ export class Inventory extends DurableObject {
     const out = {};
     for (const [key, p] of Object.entries(products)) {
       const sold = this.sql.exec("SELECT COUNT(*) AS n FROM units WHERE product = ? AND status = 'sold'", key).one().n;
-      const left = Math.max(0, p.cap - this.taken(key));
-      out[key] = { cap: p.cap, sold, left };
+      // "left" only counts paid sales, so the page doesn't drop while people are just looking
+      // at checkout. "open" also subtracts live holds; checkout itself still enforces holds.
+      const left = Math.max(0, p.cap - sold);
+      const open = Math.max(0, p.cap - this.taken(key));
+      out[key] = { cap: p.cap, sold, left, open };
     }
     return out;
   }
