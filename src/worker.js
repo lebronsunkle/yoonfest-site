@@ -7,7 +7,9 @@ import { DurableObject } from "cloudflare:workers";
 
 const PRODUCTS = {
   yurt: { name: "YOON Fest 2027 - Yurt (festival weekend, sleeps 4)", amount: 180000, cap: 7 },
-  cabin: { name: "YOON Fest 2027 - Pine Ridge Cabin (festival weekend, sleeps 4)", amount: 300000, cap: 1 },
+  // Pine Ridge sold Nov 2026. closed keeps it off sale for good, even if a sale is ever refunded.
+  cabin: { name: "YOON Fest 2027 - Pine Ridge Cabin (festival weekend, sleeps 4)", amount: 300000, cap: 1, closed: true },
+  shack: { name: "YOON Fest 2027 - The Shack (festival weekend, sleeps 2)", amount: 250000, cap: 1 },
 };
 
 // Stripe's shortest allowed Checkout lifetime is 30 minutes. The hold lasts a bit longer
@@ -73,6 +75,7 @@ async function checkout(request, env, url) {
   const product = PRODUCTS[key];
   if (!product) return json({ error: "bad_product" }, 400);
 
+  if (product.closed) return json({ error: "sold_out" }, 409);
   const hold = await stock(env).hold(key, product.cap, HOLD_MS);
   if (!hold) {
     // Paid out = sold out. Otherwise someone is mid-checkout on the last one(s).
@@ -208,8 +211,8 @@ export class Inventory extends DurableObject {
       const sold = this.sql.exec("SELECT COUNT(*) AS n FROM units WHERE product = ? AND status = 'sold'", key).one().n;
       // "left" only counts paid sales, so the page doesn't drop while people are just looking
       // at checkout. "open" also subtracts live holds; checkout itself still enforces holds.
-      const left = Math.max(0, p.cap - sold);
-      const open = Math.max(0, p.cap - this.taken(key));
+      const left = p.closed ? 0 : Math.max(0, p.cap - sold);
+      const open = p.closed ? 0 : Math.max(0, p.cap - this.taken(key));
       out[key] = { cap: p.cap, sold, left, open };
     }
     return out;
