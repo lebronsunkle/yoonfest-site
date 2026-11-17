@@ -38,8 +38,9 @@ export default {
 };
 
 // Live sales and test sales are counted separately, so test purchases never block real ones.
+// A live key is either a full secret key (sk_live_) or a restricted key (rk_live_).
 function isLive(env) {
-  return String(env.STRIPE_SECRET_KEY || "").startsWith("sk_live_");
+  return /^(sk|rk)_live_/.test(String(env.STRIPE_SECRET_KEY || ""));
 }
 
 // With a test key, checkout is hidden from the public and only works at /lodging.html?test=1.
