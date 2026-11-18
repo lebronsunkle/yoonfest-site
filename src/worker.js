@@ -6,7 +6,7 @@
 import { DurableObject } from "cloudflare:workers";
 
 const PRODUCTS = {
-  yurt: { name: "YOON Fest 2027 - Yurt (festival weekend, sleeps 4)", amount: 180000, cap: 6 }, // 7 yurts, 1 sold direct (paid Adam outside Stripe, Nov 18 2026),
+  yurt: { name: "YOON Fest 2027 - Yurt (festival weekend, sleeps 4)", amount: 180000, cap: 6 }, // 7 yurts, 1 sold direct (paid Adam outside Stripe, Nov 18 2026)
   // Pine Ridge sold Nov 2026. closed keeps it off sale for good, even if a sale is ever refunded.
   cabin: { name: "YOON Fest 2027 - Pine Ridge Cabin (festival weekend, sleeps 4)", amount: 300000, cap: 1, closed: true },
   shack: { name: "YOON Fest 2027 - Private Cabin (festival weekend, sleeps 2)", amount: 250000, cap: 1 },
